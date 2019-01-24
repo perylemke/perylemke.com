@@ -19,7 +19,7 @@ theme = "hyde-hyde"
     author = "Pery Lemke"
     title = "Pery Lemke"
     # description = "..."
-    authorimage = "static/img/pery.jpg"
+    authorimage = "/img/pery.jpg"
     dateformat = "Jan 2, 2006"
 
     # sidebar, copyright & license
