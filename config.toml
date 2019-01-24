@@ -1,5 +1,5 @@
 ## Basic Configuration
-baseurl = "https://perylemke.com/"
+baseurl = "https://www.perylemke.com/"
 languageCode = "en"
 
 title = "Pery Lemke"
@@ -19,7 +19,7 @@ theme = "hyde-hyde"
     author = "Pery Lemke"
     title = "Pery Lemke"
     # description = "..."
-    authorimage = "/img/pery.png"
+    authorimage = "static/img/pery.jpg"
     dateformat = "Jan 2, 2006"
 
     # sidebar, copyright & license
