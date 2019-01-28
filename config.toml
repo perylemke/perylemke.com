@@ -6,13 +6,13 @@ title = "Pery Lemke"
 theme = "hyde-hyde"
 
 ## Hugo Built-in Features
-# disqusShortname = "your-disqus-shortname"
-# googleAnalytics = "your-google-analytics-id"
-# enableRobotsTXT = true
+disqusShortname = "perylemke"
+googleAnalytics = "UA-133373514-1"
+#enableRobotsTXT = true
 
-# summarylength = 30
+summarylength = 30
 
-#paginate = 5
+paginate = 5
 
 ## Site Settings
 [params]
@@ -33,7 +33,8 @@ theme = "hyde-hyde"
     highlightjsstyle = "github"
     
     # please choose either GraphComment or Disqus or Utterances
-    #GraphCommentId = "..."
+    
+    #GraphCommentId = ""
     #UtterancesRepo = "..." # https://utteranc.es/
     #UtterancesIssueTerm = "..." # pathname, url, title, og:title
     #UtterancesTheme = "..." # github-light or github-dark
