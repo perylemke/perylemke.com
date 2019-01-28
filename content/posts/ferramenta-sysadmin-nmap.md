@@ -11,14 +11,11 @@ Este texto tem o intuito de mostrar que nem só de containers vive o SysAdmin mo
 
 ## O que é o nmap?
 
-Para descrever o que é o `nmap` vamos utilizar a descrição do nosso querido comando `man`:
+O `nmap` é um "mapeador de rede" (Networking Mapping) utilizado para escanear e identificar portas abertas, serviços rodando nestas portas e sua respectiva versão para que sejam identificadas vulnerabilidades nos mesmos.
 
+É reconhecida como uma ferramenta muito rápida e já salvou a vida de muita gente, inclusive deste que vos escreve.
 
-O Nmap (“Network Mapper”) é uma ferramenta em código aberto para exploração de rede e auditoria de segurança. Foi desenhada para rastrear(Scan) rapidamente redes amplas contudo funciona bem com um único anfitrião(host). 
-
-Nmap usa pacotes IP em estado bruto(raw) sobre novas formas para determinar que anfitriões(hosts) estão disponíveis na rede, que serviços (nome e versão da aplicação) esses anfitriões(hosts) estão disponibilizando, que sistemas operativos (e versões de SO) estão em uso, que tipo de filtros de pacotes/firewalls estão em uso e dezenas de outras características. 
-
-Enquanto o Nmap é frequentemente usado para auditorias de segurança, muitos sistemas e administradores de redes consideram-no útil para as tarefas de rotina como o inventário da rede, gestão de actualizações de serviços e monitorizar o uptime de anfitriões ou serviços.
+Para maiores detalhes, basta escrever no seu terminal `man nmap` ;)
 
 ## Instalando o nmap
 
@@ -47,13 +44,31 @@ Nmap version 7.60 ( https://nmap.org )
 Agora vamos ao que interessa, vamos usar o `nmap` para escanear os nossos servidores, vou pegar o exemplo que eu mais uso:
 
 ```
-$ nmap -P0 -A $IP_ADDRESS
+$ nmap -P0 -A 229.74.158.92
 ```
 
-Esse comando lista apenas as portas importantes, ou seja, você pode verificar por exemplo se a porta 22 ou 80 está aberta em seu servidor, e isso num início de troubleshooting pode lhe poupar um bom tempo.
+Esse comando lista apenas as portas importantes, ou seja, você pode verificar por exemplo se a porta 22 ou 80 está aberta em seu servidor, isso num início de troubleshooting pode lhe poupar um bom tempo, e me ajudou bastante em um caso onde as regras de firewall se perderam por algum motivo e consegui identificar o porquê da aplicação não estar rodando no momento.
 
-Você pode usar usar o `nmap` de N formas, por isso colocarei abaixo uma série de links de textos e tutoriais que complementam este texto:
+Um outro exemplo que pode ser utilizado é usando o parâmetro `-p`, e passando a porta respectiva:
 
+```
+$ nmap -p 22 213.183.92.229
+```
+
+Usando desta maneira verificamos diretamente se a porta 22 está aberta no servidor informado.
+
+E um último exemplo interessante que podemos usar neste post, é usando o parâmetro `-sS` que é a opção padrão usada pelo Nmap quando nenhuma opção for definida.
+
+```
+$ nmap -sS 118.32.111.217
+```
+
+## Conclusão
+
+Esta ferramenta é extremamente útil para você fazer seu troubleshooting, e recomendo estudar a fundo, por isso colocarei abaixo uma série de links de textos e tutoriais que complementam este texto:
+
+* [NMap Book](https://nmap.org/book/)
+* [Scanning de portas com Nmap](https://infoslack.com/security/scanning-de-portas-com-nmap)
 * [Install nmap command Software For Scanning Network](https://www.cyberciti.biz/faq/install-nmap-debian-ubuntu-server-desktop-system/)
 * [Tutorial NMAP para iniciantes!](https://caveiratech.com/forum/scanning-e-scanners-de-vulnerabilidades/nmap-para-iniciantes!/)
 * [Nmap Tutorial](https://hackertarget.com/nmap-tutorial/)
