@@ -53,9 +53,9 @@ Depois que descobri o Ansible minha vida como SysAdmin melhorou bastante, automa
 
 Deixo vocês com alguns links:
 
-[How do I configure a jump host to access servers that I have no direct access to?](https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-configure-a-jump-host-to-access-servers-that-i-have-no-direct-access-to)
-[Using Ansible with a bastion SSH host](https://alexbilbie.com/2014/07/using-ansible-with-a-bastion-host/)
-[Ansible SSH: Using Bastion](https://medium.com/@yagonobre/ansible-ssh-using-bastion-95ec5b28b87e)
+- [How do I configure a jump host to access servers that I have no direct access to?](https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-configure-a-jump-host-to-access-servers-that-i-have-no-direct-access-to)
+- [Using Ansible with a bastion SSH host](https://alexbilbie.com/2014/07/using-ansible-with-a-bastion-host/)
+- [Ansible SSH: Using Bastion](https://medium.com/@yagonobre/ansible-ssh-using-bastion-95ec5b28b87e)
 
 Bom, é isso aí pessoal!
 
