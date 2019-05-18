@@ -13,14 +13,14 @@ E antes de começar quero agradecer a [Fernando Ike](https://www.twitter.com/fer
 
 ## O que é Infraestrutura Imutável?
 
-Infraestrutura Imutável é um paradigma, dentre vários em Infraestrutura, onde servidores não podem sob hipotése nenhuma modificados após o deploy, ou seja, se é necessário alguma mudança, correção e/ou atualização de alguma maneira novos servidores devem ser criados a partir de uma imagem comum com as suas respectivas alterações onde será realizado o provisionamento para substituir os antigos servidores. Depois de validados, os servidores novos são colocados em uso e os antigos são descartados.
+Infraestrutura Imutável é um paradigma, dentre vários em Infraestrutura, onde servidores não podem sob hipotése nenhuma modificados após o deploy, ou seja, se é necessário alguma mudança, correção e/ou atualização de alguma maneira novos servidores devem ser criados a partir de uma imagem comum com as suas respectivas alterações onde será realizado o provisionamento para substituir os antigos servidores. Depois de validados, os servidores novos são colocados em uso e os antigos são descartados. Este é um conceito que surgiu por meados de 2012, porém existem documentações relacionadas a isso desde 2004.
 
-Lembrando que a premissa principal para você aplicar infraestrutura imutável é você estar num ambiente de Cloud, infelizmente não irá rolar no seu ambiente On Premises. :(
+Lembrando que uma boa prática para você aplicar infraestrutura imutável é você estar num ambiente de Cloud, pode rolar num ambiente Bare Metal (On Premises), mas você deve tem que instalar um OpenStack, ou alguma ferramenta similar. Trocando em miúdos, é díficil, não compensa o esforço, por isso não recomendo.
 
 Infraestrutura Imutável tem alguns sinônimos conhecidos, onde alguns iremos abordar com mais calma neste artigo:
 
 - Pets vs Cattle
-- Phoenix Servers vs Snowflake Servers;
+- PhoenixServers vs SnowflakeServers;
 - Golden Images
 - Infrastructure as Code
 
@@ -52,11 +52,27 @@ Definição cruel, porém verdadeira, os servidores ganham um número ou código
 
 A mesma coisa vale para um cluster de Kubernetes, desde que usamos a boa prática de usar multi master como citei mais acima, e isso multi master impáres e com no mínimo 3 servidores. Porquê uma coisa é um worker cair, isso é tranquilo de recuperar, mas se tivermos um Master apenas, esse servidor se transforma num Pet.
 
-Peço desculpas aos leitores veganos e vegetarianos deste blog pela definição não muito humana! :(
+Peço desculpas aos leitores veganos e vegetarianos deste blog pela definição não humana! :(
 
-## Phoenix Servers vs Snowflake Servers
+## PhoenixServers vs SnowflakeServers
 
-## Erros comuns
+Então [Martin Fowler](https://twitter.com/martinfowler) suaviza um pouco o termo, e os batiza em PhoenixServers (Cattle) e SnowflakeServers (Pets), os conceitos são parecidos, quase idênticos, por isso, para não deixar este artigo repetitivo vou resumir para vocês:
+
+### PhoenixServers
+
+> PhoenixServers são semelhantes a Cattle. São servidores que são sempre construídos do zero e são fáceis de recriar (ou "renascem") por meio de procedimentos automatizados.
+
+### SnowflakeServers
+
+> SnowflakeServers são semelhantes Pets. São servidores que são gerenciados manualmente, atualizados com freqüência e ajustados no local, levando a um ambiente exclusivo.
+
+
+
+## Problemas comuns em Snowflake Servers
+
+## Formas de Deploy em Infraestrutura Imutável
+
+## Erros que cometi durante minha jornada de aprendizado
 
 ## Conclusão
 
@@ -67,6 +83,9 @@ Deixo para vocês alguns links muito úteis:
 - [10Deploys - Episódio 17 - Infraestrutura imutável](https://www.10deploys.com/episodios/017-infraestrutura-imutavel)
 - [A Saga do Continuous Delivery - Do Make ao Deploy Automatizado!](https://speakerdeck.com/perylemke/a-saga-do-continuous-delivery-do-make-ao-deploy-automatizado)
 - [Infraestrutura Imutável - A base para aplicações nativas na nuvem](https://www.youtube.com/watch?v=JfhBkiSQynY)
+- [PhoenixServer](https://martinfowler.com/bliki/PhoenixServer.html)
+- [SnowflakeServer](https://martinfowler.com/bliki/SnowflakeServer.html)
+- [Configuration Drift: Phoenix Server vs Snowflake Server Comic](https://www.digitalocean.com/community/tutorials/configuration-drift-phoenix-server-vs-snowflake-server-comic)
 
 Bom, é isso aí pessoal!
 
