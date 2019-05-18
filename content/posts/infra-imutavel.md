@@ -1,19 +1,19 @@
 ---
 title: "Infraestrutura Imutável: Devemos ainda nos apegar aos nossos servidores?"
 date: 2019-05-18T12:33:08-02:00
-draft: false
+draft: true
 tags: ["devops", "infra", "sre", "pets vs cattle", "phoenix servers", "snowflake servers", "infra as a code"]
 ---
 
 Olá mundo =)
 
-Começa uma micro série de dois posts neste humilde blog sobre Infraestrutura Imutável. Este artigo será mais conceitual e o próximo artigo será algo mais prático aplicando os conceitos de Infra imutável com [Packer](https://www.packer.io/), [Ansible](https://www.ansible.com/) e [Terraform](https://www.terraform.io).
+Começa uma micro série de dois posts neste blog sobre Infraestrutura Imutável. Este artigo será mais conceitual e o próximo artigo será algo mais prático aplicando os conceitos de Infra imutável com [Packer](https://www.packer.io/), [Ansible](https://www.ansible.com/) e [Terraform](https://www.terraform.io).
 
 E antes de começar quero agradecer a [Fernando Ike](https://www.twitter.com/fernandoike) e [Daniel Romero](https://twitter.com/infoslack) por toda mentoria neste assunto.
 
 ## O que é Infraestrutura Imutável?
 
-Infraestrutura Imutável é um paradigma, dentre vários, onde servidores não podem sob hipotése nenhuma modificados após o deploy, ou seja, se é necessário alguma mudança, correção e/ou atualização de alguma maneira novos servidores devem ser criados a partir de uma imagem comum com as suas respectivas alterações onde será realizado o provisionamento para substituir os antigos servidores. Depois de validados, os servidores novos são colocados em uso e os antigos são descartados.
+Infraestrutura Imutável é um paradigma, dentre vários em Infraestrutura, onde servidores não podem sob hipotése nenhuma modificados após o deploy, ou seja, se é necessário alguma mudança, correção e/ou atualização de alguma maneira novos servidores devem ser criados a partir de uma imagem comum com as suas respectivas alterações onde será realizado o provisionamento para substituir os antigos servidores. Depois de validados, os servidores novos são colocados em uso e os antigos são descartados.
 
 Lembrando que a premissa principal para você aplicar infraestrutura imutável é você estar num ambiente de Cloud, infelizmente não irá rolar no seu ambiente On Premises. :(
 
@@ -50,9 +50,9 @@ Isso não fica muito atrás quando temos em nosso parque de máquinas servidores
 
 Definição cruel, porém verdadeira, os servidores ganham um número ou código de identificação como os rebanhos de gado ganham nas fazendas por exemplo: `web001` até `web100`. Um exemplo prático é usando o *Instance Group Manager* no Google Cloud, geralmente quando uma máquina morre, seja lá por qual motivo, o *Instance Group Manager* vai recriar uma nova máquina para você com impacto zero para a sua aplicação rodando.
 
-A mesma coisa vale para um cluster de Kubernetes, desde que usamos a boa prática de usar multi master como citei mais acima, e isso multi master impáres e com no mínimo 3. Porquê uma coisa é um worker cair, isso é tranquilo de recuperar, mas se tivermos um Master,esse servidor se transforma num Pet.
+A mesma coisa vale para um cluster de Kubernetes, desde que usamos a boa prática de usar multi master como citei mais acima, e isso multi master impáres e com no mínimo 3 servidores. Porquê uma coisa é um worker cair, isso é tranquilo de recuperar, mas se tivermos um Master apenas, esse servidor se transforma num Pet.
 
-Peço desculpas aos leitores veganos deste blog pela definição cruel! :(
+Peço desculpas aos leitores veganos e vegetarianos deste blog pela definição não muito humana! :(
 
 ## Phoenix Servers vs Snowflake Servers
 
