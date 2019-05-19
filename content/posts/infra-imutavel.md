@@ -15,7 +15,7 @@ E antes de começar quero agradecer a [Fernando Ike](https://www.twitter.com/fer
 
 Infraestrutura Imutável é um paradigma, dentre vários em Infraestrutura, onde servidores não podem sob hipotése nenhuma modificados após o deploy, ou seja, se é necessário alguma mudança, correção e/ou atualização de alguma maneira novos servidores devem ser criados a partir de uma imagem comum com as suas respectivas alterações onde será realizado o provisionamento para substituir os antigos servidores. Depois de validados, os servidores novos são colocados em uso e os antigos são descartados. Este é um conceito que surgiu por meados de 2012, porém existem documentações relacionadas a isso desde 2004.
 
-Lembrando que uma boa prática para você aplicar infraestrutura imutável é você estar num ambiente de Cloud, pode rolar num ambiente Bare Metal (On Premises), mas você deve tem que instalar um OpenStack, ou alguma ferramenta similar. Trocando em miúdos, é díficil, não compensa o esforço, por isso não recomendo.
+Uma boa prática para você aplicar infraestrutura imutável é você estar num ambiente de Cloud, pode rolar num ambiente Bare Metal (On Premises), mas você deve tem que instalar um OpenStack, ou alguma ferramenta similar. Trocando em miúdos, é díficil, não compensa o esforço, por isso não recomendo.
 
 Infraestrutura Imutável tem alguns sinônimos conhecidos, onde alguns iremos abordar com mais calma neste artigo:
 
@@ -30,9 +30,9 @@ Neste artigo vamos nos ater nos conceitos de "Pets vs Cattle" e "Phoenix Servers
 
 O conceito de Pets vs Cattle não naseceram com este nome, mas sim com o conceito de "Scale-Up vs "Scale-Out" apresentado por Bill Baker na apresentação [Scaling SQL Server](https://www.pass.org/eventdownload.aspx?suid=1902) em 2012, sendo que ele nem abordava este assunto em conceito de Cloud Computing, o foco era em num contexto de arquitetura em geral.
 
-Uma das pessoas a verem esta apresentação era [Randy Bias](https://twitter.com/randybias), que escreveu um artigo muito interessante sobre a História do termo Pets vs Cattle que inspirou este artigo que você está lendo e que está nos links no rodapé. Bill na sua apresentação usou uma analogia muito interessante que chamou a atenção de Randy, onde ele falou sobre scale-up versus scale-out num contexto de comparar com animais de estimação (Pets) e um rebanho de gado (Cattle).
+Uma das pessoas a ver esta apresentação era [Randy Bias](https://twitter.com/randybias) que escreveu um artigo muito interessante sobre a História do termo [Pets vs Cattle](http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/) que inspirou este artigo. Bill na sua apresentação usou uma analogia muito interessante que chamou a atenção de Randy, onde ele falou sobre scale-up versus scale-out num contexto de comparar com animais de estimação (Pets) e um rebanho de gado (Cattle).
 
-Então em um momento de epifania, Randy trouxe para o contexto de nuvem onde ele enfatizou a descartabilidade dos servidores do tipo Cattle (Gado) e singularidade dos servidores do tipo Pets (Animais de estimação). Esse tipo de explicação foi muito bem aceita por membros da comunidade e especial por [Tim Bell](https://twitter.com/noggin143) do CERN que ajudaram a [popularizar](https://twitter.com/noggin143/status/354666097691205633) o termo e realizar a transição para a cloud.
+Então em um momento de iluminação, Randy trouxe para o contexto de nuvem onde ele enfatizou a descartabilidade dos servidores do tipo Cattle (Gado) e singularidade dos servidores do tipo Pets (Animais de estimação). Esse tipo de explicação foi muito bem aceita por membros da comunidade e por [Tim Bell](https://twitter.com/noggin143) do CERN que ajudaram a [popularizar](https://twitter.com/noggin143/status/354666097691205633) o termo e realizar a transição para a cloud.
 
 Mas após toda essa introdução, vamos entrar mais a fundo sobre Pets e Cattle:
 
@@ -52,11 +52,11 @@ Definição cruel, porém verdadeira, os servidores ganham um número ou código
 
 A mesma coisa vale para um cluster de Kubernetes, desde que usamos a boa prática de usar multi master como citei mais acima, e isso multi master impáres e com no mínimo 3 servidores. Porquê uma coisa é um worker cair, isso é tranquilo de recuperar, mas se tivermos um Master apenas, esse servidor se transforma num Pet.
 
-Peço desculpas aos leitores veganos e vegetarianos deste blog pela definição não humana! :(
+E pessoas gostando ou não desta definição, Pets vs Cattle tem um contexto histórico relevante e é muito importante para entendermos o que é infraesturura imutável.
 
 ## PhoenixServers vs SnowflakeServers
 
-Então [Martin Fowler](https://twitter.com/martinfowler) suaviza um pouco o termo, e os batiza em PhoenixServers (Cattle) e SnowflakeServers (Pets), os conceitos são parecidos, quase idênticos, por isso, para não deixar este artigo repetitivo vou resumir para vocês:
+Então [Martin Fowler](https://twitter.com/martinfowler) altera um pouco o termo, e os batiza em PhoenixServers (Cattle) e SnowflakeServers (Pets), os conceitos são parecidos, quase idênticos, por isso, para não deixar este artigo repetitivo vou resumir para vocês:
 
 ### PhoenixServers
 
@@ -66,17 +66,17 @@ Então [Martin Fowler](https://twitter.com/martinfowler) suaviza um pouco o term
 
 > SnowflakeServers são semelhantes Pets. São servidores que são gerenciados manualmente, atualizados com freqüência e ajustados no local, levando a um ambiente exclusivo.
 
-
-
 ## Problemas comuns em Snowflake Servers
 
 ## Formas de Deploy em Infraestrutura Imutável
+
+## Boas práticas em Infraestrutura Imutável
 
 ## Erros que cometi durante minha jornada de aprendizado
 
 ## Conclusão
 
-Deixo para vocês alguns links muito úteis:
+Deixo para vocês alguns links muito úteis de onde me baseei para fazer este artigo:
 
 - [The History of Pets vs Cattle and How to Use the Analogy Properly](http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/)
 - [DevOps Concepts: Pets vs Cattle](https://medium.com/@Joachim8675309/devops-concepts-pets-vs-cattle-2380b5aab313)
