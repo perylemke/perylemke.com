@@ -48,7 +48,7 @@ Isso não fica muito atrás quando temos em nosso parque de máquinas servidores
 
 > Conjuntos de dois ou mais servidores, construídos em cima de uma ferramenta de automatização, onde nenhum, dois ou até três servidores são insubstituíveis. Geralmente em caso de falhas, não é necessária ação humana, pois quando um servidor morre ele substituído por outro idêntico. Exemplos: Clusters diversos (Cassandra, Kafka, Kubernetes (Ressalva: Usando multi master.)), múltiplos servidores web, assim por diante.
 
-Definição cruel, porém verdadeira, os servidores ganham um número ou código de identificação como os rebanhos de gado ganham nas fazendas por exemplo: `web001` até `web100`. Um exemplo prático é usando o *Instance Group Manager* no Google Cloud, geralmente quando uma máquina morre, seja lá por qual motivo, o *Instance Group Manager* vai recriar uma nova máquina para você com impacto zero para a sua aplicação rodando.
+Definição cruel, porém verdadeira, os servidores ganham um número ou código de identificação como os rebanhos de gado ganham nas fazendas por exemplo: `web001` até `web100`. Um exemplo prático é usando o *Instance Group Manager* no Google Cloud, geralmente quando uma máquina morre, o *Instance Group Manager* vai recriar uma nova máquina para você com o mínimo de impacto para a sua aplicação rodando.
 
 A mesma coisa vale para um cluster de Kubernetes, desde que usamos a boa prática de usar multi master como citei mais acima, e isso multi master impáres e com no mínimo 3 servidores. Porquê uma coisa é um worker cair, isso é tranquilo de recuperar, mas se tivermos um Master apenas, esse servidor se transforma num Pet.
 
@@ -58,19 +58,33 @@ E pessoas gostando ou não desta definição, Pets vs Cattle tem um contexto his
 
 Então [Martin Fowler](https://twitter.com/martinfowler) altera um pouco o termo, e os batiza em PhoenixServers (Cattle) e SnowflakeServers (Pets), os conceitos são parecidos, quase idênticos, por isso, para não deixar este artigo repetitivo vou resumir para vocês:
 
-### PhoenixServers
-
-> PhoenixServers são semelhantes a Cattle. São servidores que são sempre construídos do zero e são fáceis de recriar (ou "renascem") por meio de procedimentos automatizados.
-
 ### SnowflakeServers
 
 > SnowflakeServers são semelhantes Pets. São servidores que são gerenciados manualmente, atualizados com freqüência e ajustados no local, levando a um ambiente exclusivo.
 
-## Problemas comuns em Snowflake Servers
+#### Problemas comuns em Snowflake Servers
+
+### PhoenixServers
+
+> PhoenixServers são semelhantes a Cattle. São servidores que são sempre construídos do zero e são fáceis de recriar (ou "renascem") por meio de procedimentos automatizados.
+
+Em outras palavras, são os nossos servidores **imutáveis** geralmente provisionamentos por alguma ferramenta de gestão de configuração como Ansible, Chef, Puppet ou o bom e velho Shell Script. 
+
+Um exemplo interessante para ilustar é o uso do [Packer](https://www.packer.io/) com alguma destas [ferramentas](https://www.packer.io/docs/provisioners), onde vai gerar a imagem para o seu servidor seja nos diversos [cloud providers](https://www.packer.io/docs/builders/) que o Packer suporta, garantindo assim a integridade do seu deploy e mitigando possíveis falhas no processo.
+
+No meu próximo artigo, irei fazer uma demo onde utilzei o Packer com o Ansible para geração de imagem para a VM no Google Cloud Platform.
 
 ## Formas de Deploy em Infraestrutura Imutável
 
+- Blue/Green Deployment
+
+- Canary Release
+
+- Rolling Update
+
 ## Boas práticas em Infraestrutura Imutável
+
+## Demo
 
 ## Erros que cometi durante minha jornada de aprendizado
 
