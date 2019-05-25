@@ -7,15 +7,13 @@ tags: ["devops", "infra", "sre", "pets vs cattle", "phoenix servers", "snowflake
 
 Olá mundo =)
 
-Começa uma micro série de dois posts neste blog sobre Infraestrutura Imutável. Este artigo será mais conceitual e o próximo artigo será algo mais prático aplicando os conceitos de Infra imutável com [Packer](https://www.packer.io/), [Ansible](https://www.ansible.com/) e [Terraform](https://www.terraform.io).
+Conto para vocês neste post minha saga de estudos sobre Infraestrutura Imutável. Este artigo irá abordar conceitos, mas também irá abordar a prática de infraestrutura imutável com [Packer](https://www.packer.io/), [Ansible](https://www.ansible.com/) e [Terraform](https://www.terraform.io).
 
 E antes de começar quero agradecer a [Fernando Ike](https://www.twitter.com/fernandoike) e [Daniel Romero](https://twitter.com/infoslack) por toda mentoria neste assunto.
 
 ## O que é Infraestrutura Imutável?
 
 Infraestrutura Imutável é um paradigma, dentre vários em Infraestrutura, onde servidores não podem sob hipotése nenhuma modificados após o deploy, ou seja, se é necessário alguma mudança, correção e/ou atualização de alguma maneira novos servidores devem ser criados a partir de uma imagem comum com as suas respectivas alterações onde será realizado o provisionamento para substituir os antigos servidores. Depois de validados, os servidores novos são colocados em uso e os antigos são descartados. Este é um conceito que surgiu por meados de 2012, porém existem documentações relacionadas a isso desde 2004.
-
-Uma boa prática para você aplicar infraestrutura imutável é você estar num ambiente de Cloud, pode rolar num ambiente Bare Metal (On Premises), mas você deve tem que instalar um OpenStack, ou alguma ferramenta similar. Trocando em miúdos, é díficil, não compensa o esforço, por isso não recomendo.
 
 Infraestrutura Imutável tem alguns sinônimos conhecidos, onde alguns iremos abordar com mais calma neste artigo:
 
@@ -48,7 +46,7 @@ Isso não fica muito atrás quando temos em nosso parque de máquinas servidores
 
 > Conjuntos de dois ou mais servidores, construídos em cima de uma ferramenta de automatização, onde nenhum, dois ou até três servidores são insubstituíveis. Geralmente em caso de falhas, não é necessária ação humana, pois quando um servidor morre ele substituído por outro idêntico. Exemplos: Clusters diversos (Cassandra, Kafka, Kubernetes (Ressalva: Usando multi master.)), múltiplos servidores web, assim por diante.
 
-Definição cruel, porém verdadeira, os servidores ganham um número ou código de identificação como os rebanhos de gado ganham nas fazendas por exemplo: `web001` até `web100`. Um exemplo prático é usando o *Instance Group Manager* no Google Cloud, geralmente quando uma máquina morre, o *Instance Group Manager* vai recriar uma nova máquina para você com o mínimo de impacto para a sua aplicação rodando.
+Definição cruel, porém verdadeira, os servidores ganham um número ou código de identificação como os rebanhos de gado ganham nas fazendas por exemplo: `web001` até `web100`. Um exemplo prático é usando o [Instance Group Manager](https://cloud.google.com/compute/docs/instance-groups/) no Google Cloud, geralmente quando uma máquina morre, o *Instance Group Manager* vai recriar uma nova máquina para você com o mínimo de impacto para a sua aplicação rodando.
 
 A mesma coisa vale para um cluster de Kubernetes, desde que usamos a boa prática de usar multi master como citei mais acima, e isso multi master impáres e com no mínimo 3 servidores. Porquê uma coisa é um worker cair, isso é tranquilo de recuperar, mas se tivermos um Master apenas, esse servidor se transforma num Pet.
 
@@ -56,13 +54,31 @@ E pessoas gostando ou não desta definição, Pets vs Cattle tem um contexto his
 
 ## PhoenixServers vs SnowflakeServers
 
-Então [Martin Fowler](https://twitter.com/martinfowler) altera um pouco o termo, e os batiza em PhoenixServers (Cattle) e SnowflakeServers (Pets), os conceitos são parecidos, quase idênticos, por isso, para não deixar este artigo repetitivo vou resumir para vocês:
+Então [Martin Fowler](https://twitter.com/martinfowler) altera um pouco o termo, e os batiza em PhoenixServers (Cattle) e SnowflakeServers (Pets), os conceitos são parecidos, talvez idênticos, por isso, muito provavelmente este artigo ficará repetitivo mas é importante para fixar os conceitos:
 
 ### SnowflakeServers
 
 > SnowflakeServers são semelhantes Pets. São servidores que são gerenciados manualmente, atualizados com freqüência e ajustados no local, levando a um ambiente exclusivo.
 
+É o conceito mais tradicional, é muito comum usarmos estes tipos de servidores para hospedarmos nossas aplicações e onde o deploy é feito por uma ferramenta de pipeline como [Jenkins](https://jenkins.io/), [TravisCI](https://travis-ci.org/), etc. que é acessado pela ferramenta ou acessando diretamente o servidor e mudando os arquivos manualmente.
+
+O cenário comum para SnowflakeServers são:
+ 
+- Construção do artefato pela ferramenta de Continuos Delivery;
+- Dependências são instalados e/ou reinstaladas a versão nova, e para esse se faz necessário uma ferramenta como Ansible, Chef, Puppet ou até mesmo um Shell Script para fazer este passo;
+- Implementação do artefato em homologação;
+- Implementação do artefato em produção.
+
+Porém este processo corriqueiro pode ter efeitos colaterais como uma possível indisponibilidade do sistema de empacotamento (`pip`, `bundle`, `npm`, `apt`, `yum`, etc.) ocasionando a não instalação daquela biblioteca necessária ao seu projeto, e é um problema muito difícil de achar e se perde muito tempo fazendo troubleshooting. Podem haver casos de uma biblioteca necessária ao projeto não estar mais disponível no gerenciador de pacotes ou até mesmo uma atualização de biblioteca que podem fazer você perder um tempo precioso para resolver o problema.
+
+E um ponto muito importante é a ordem dos comandos, um erro muito comum que muitos de nós já cometeram são comandos certos em ordem errada, por isso que a ordem dos comandos a serem dados é extrema importância nesse caso pois infelizmente temos dependência circular e pacotes que tem que estar numa ordem correta. E para identificar isso é bem díficil pois na maioria dos casos é difícil identificar o problema e vira uma grande bola de neve.
+
 #### Problemas comuns em Snowflake Servers
+
+- Aumento da complexidade operacional
+- Maior exposição a falhas no pipeline e durante a operação (via serviços de terceiros)
+
+E no cenário atual com oceano lotado de [ferramentas](https://xebialabs.com/periodic-table-of-devops-tools/) para implementação sujeitas a todo tipos de falhas, estamos expostos a erros, pois é algo que não podemos controlar.
 
 ### PhoenixServers
 
@@ -72,17 +88,35 @@ Em outras palavras, são os nossos servidores **imutáveis** geralmente provisio
 
 Um exemplo interessante para ilustar é o uso do [Packer](https://www.packer.io/) com alguma destas [ferramentas](https://www.packer.io/docs/provisioners), onde vai gerar a imagem para o seu servidor seja nos diversos [cloud providers](https://www.packer.io/docs/builders/) que o Packer suporta, garantindo assim a integridade do seu deploy e mitigando possíveis falhas no processo.
 
-No meu próximo artigo, irei fazer uma demo onde utilzei o Packer com o Ansible para geração de imagem para a VM no Google Cloud Platform.
+A criação desta imagem pode ser feita na ferramenta de pipeline, assim não se faz necessário rodar ferramentas de terceiros como `pip`, `bundle`, `composer` rodando no servidor de produção ou bibliotecas diversas no seu servidor tornando sua imagem de VM enxuta e com uma melhor performance, claro se seguir as boas práticas. Sem contar toda a parte de segurança como permissão de acesso e vulnerabilidades diversas.
+
+E hoje com a disseminação da cultura DevOps todos tem que ter senso de *Ownership*, seja profissionais de Desenvolvimento e Operações e com o *Infrastructure as a Code* os códigos de infraestrutura fazem parte do Produto e é responsabilidade de todos, e não somente de uma figura específica, os possíveis problemas que podem ocorrer.
+
+## Boas práticas em Infraestrutura Imutável
+
+### Estar em um ambiente Cloud
+
+Uma boa prática para você aplicar infraestrutura imutável é você estar num ambiente de Cloud, seja ele AWS, Google Cloud Platform, Azure, Digital Ocean, etc.
+
+É possível fazer em um ambiente Bare Metal (On Premises), mas você deve tem que instalar um [OpenStack](https://www.openstack.org/),ou alguma ferramenta similar. Trocando em miúdos, é díficil, não compensa o esforço, por isso não recomendo.
+
+Então é definitivo que para aplicarmos Infraestrutura Imutável deveremos estar em Cloud.
+
+### Automação de todo o processo de Continuous Deployment
+
+### Logs Centralizados
+
+### Armazenamento de dados externo
+
+### Equipes engajadas
 
 ## Formas de Deploy em Infraestrutura Imutável
 
-- Blue/Green Deployment
+### Blue/Green Deployment
 
-- Canary Release
+### Canary Release
 
-- Rolling Update
-
-## Boas práticas em Infraestrutura Imutável
+### Rolling Update
 
 ## Demo
 
