@@ -110,7 +110,7 @@ O ponto em comum disso tudo é a importância da automatização da infraestrutu
 
 Lembrando que não é infraestrutura imutável se não está em um pipeline e se o processo não é automatizado.
 
-### Logs Centralizados
+### Centralização de logs
 
 Hoje há uma tendência muito forte em todo o mundo que é o *Observability* que visa condensar as informações sobre o comportamento de todo o ambiente para identifcação da causa raiz dos problemas para resolução dos mesmos.
 
@@ -118,7 +118,7 @@ Então por isso que é uma boa prática a centralização de todos os logs seja 
 
 Você pode centralizar os logs em alguma das várias ferramentas pagas ou não que existem hoje disponíveis.
 
-### Armazenamento de dados externo
+### Armazenamento externo de dados
 
 ### Sem acesso ao servidor via SSH
 
