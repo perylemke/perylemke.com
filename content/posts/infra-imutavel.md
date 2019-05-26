@@ -112,13 +112,17 @@ Lembrando que não é infraestrutura imutável se não está em um pipeline e se
 
 ### Centralização de logs
 
-Hoje há uma tendência muito forte em todo o mundo que é o *Observability* que visa condensar as informações sobre o comportamento de todo o ambiente para identifcação da causa raiz dos problemas para resolução dos mesmos.
+Hoje há uma tendência muito forte em todo o mundo que é o *Observability* que visa condensar as informações sobre o comportamento de todo o ambiente para identifcação da causa raiz dos problemas e posterior resolução.
 
 Então por isso que é uma boa prática a centralização de todos os logs seja da aplicação e da máquina para este fim, ou seja não pode haver escrita no seu servidor.
 
 Você pode centralizar os logs em alguma das várias ferramentas pagas ou não que existem hoje disponíveis.
 
 ### Armazenamento externo de dados
+
+Como no tópico acima foi mencionado que não deve haver escrita nos servidores, o caso de persistência de dados *stateful* também deve ser realizado externamente.
+
+Hoje com muitas aplicações rodando em containers existem a questão volumes sendo persitidos no próprio servidor, porém no contexto de infraestrutura imutável os dados devem ser persistidos em um Banco de Dados externo ou até mesmo em um bucket.
 
 ### Sem acesso ao servidor via SSH
 
