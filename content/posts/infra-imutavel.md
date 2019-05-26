@@ -120,6 +120,8 @@ Você pode centralizar os logs em alguma das várias ferramentas pagas ou não q
 
 ### Armazenamento de dados externo
 
+### Sem acesso ao servidor via SSH
+
 ### Equipes engajadas
 
 ## Formas de Deploy em Infraestrutura Imutável
