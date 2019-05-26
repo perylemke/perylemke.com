@@ -104,6 +104,12 @@ Então é definitivo que para aplicarmos Infraestrutura Imutável deveremos esta
 
 ### Automação de todo o processo de Continuous Deployment
 
+Passo importantissímo, como mencionado anteriormente a infra virou código, [Jez Humble](https://twitter.com/jezhumble) já havia referência de infraestrutura como código na sua mais famosa publicação [Continuous Delivery](https://www.amazon.com/Continuous-Delivery-Deployment-Automation-Addison-Wesley/dp/0321601912) de 2011 e se formos mais para trás [Mark Burgess](https://twitter.com/markburgess_osl), conhecido por ser o criador do [CFEngine](https://cfengine.com/) no seu paper [On the theory of system administration](http://markburgess.org/papers/sysadmtheory3.pdf) de 2003.
+
+O ponto em comum disso tudo é a importância da automatização da infraestrutura, e hoje com a popularização de Cloud é crucial automatizar sua infraestrutura de rede, servidores e toda a parte de segurança tudo isso rodando num pipeline para rodar em qualquer serviço de Cloud que desejar.
+
+Lembrando que não é infraestrutura imutável se não está em um pipeline e se o processo não é automatizado.
+
 ### Logs Centralizados
 
 ### Armazenamento de dados externo
@@ -134,6 +140,7 @@ Deixo para vocês alguns links muito úteis de onde me baseei para fazer este ar
 - [PhoenixServer](https://martinfowler.com/bliki/PhoenixServer.html)
 - [SnowflakeServer](https://martinfowler.com/bliki/SnowflakeServer.html)
 - [Configuration Drift: Phoenix Server vs Snowflake Server Comic](https://www.digitalocean.com/community/tutorials/configuration-drift-phoenix-server-vs-snowflake-server-comic)
+- [Infraestrutura Imutável - A base para aplicações nativas na nuvem](https://www.youtube.com/watch?v=JfhBkiSQynY)
 
 Bom, é isso aí pessoal!
 
