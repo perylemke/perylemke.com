@@ -13,7 +13,7 @@ E antes de começar quero agradecer a [Fernando Ike](https://www.twitter.com/fer
 
 ## O que é Infraestrutura Imutável?
 
-Infraestrutura Imutável é um paradigma, dentre vários em Infraestrutura, onde servidores não podem sob hipotése nenhuma modificados após o deploy, ou seja, se é necessário alguma mudança, correção e/ou atualização de alguma maneira novos servidores devem ser criados a partir de uma imagem comum com as suas respectivas alterações onde será realizado o provisionamento para substituir os antigos servidores. Depois de validados, os servidores novos são colocados em uso e os antigos são descartados. Este é um conceito que surgiu por meados de 2012, porém existem documentações relacionadas a isso desde 2004.
+Infraestrutura Imutável é um paradigma, dentre vários em Infraestrutura, onde servidores não podem sob hipotése nenhuma devem ser modificados após o deploy, ou seja, se é necessário alguma mudança, correção e/ou atualização de alguma maneira novos servidores devem ser criados a partir de uma imagem comum com as suas respectivas alterações onde será realizado o provisionamento para substituir os antigos servidores. Depois de validados, os servidores novos são colocados em uso e os antigos são descartados. Este é um conceito que surgiu por meados de 2012, porém existem documentações relacionadas a isso desde 2004.
 
 Infraestrutura Imutável tem alguns sinônimos conhecidos, onde alguns iremos abordar com mais calma neste artigo:
 
@@ -36,7 +36,7 @@ Mas após toda essa introdução, vamos entrar mais a fundo sobre Pets e Cattle:
 
 ### Pets
 
-> Servidores que são tratados como indispensáveis ou exclusivos que nunca podem ser desativados. Normalmente, eles são criados, gerenciados e ajustados manualmente. Exemplos: Mainframes, servidores solitários, loadbalancers/firewalls de HA, bancos de dados projetados como master/slave e assim por diante.
+> Servidores que são tratados como indispensáveis ou exclusivos que nunca podem ser desativados. Normalmente, eles são criados, gerenciados e ajustados manualmente. Exemplos: Mainframes, servidores solitários, loadbalancers/firewalls de HA, bancos de dados projetados como primário/secundário e assim por diante.
 
 Quem tem ou já teve um animal de estimação sabe que tem alimentá-lo, se estiver doente tem que levar no veterinário, dar carinho e tudo que envolve ter um animal de estimação, e quando nosso animalzinho de estimação morre geralmente é muito triste para todos nós. 
 
@@ -124,9 +124,15 @@ Como no tópico acima foi mencionado que não deve haver escrita nos servidores,
 
 Hoje com muitas aplicações rodando em containers existem a questão volumes sendo persitidos no próprio servidor, porém no contexto de infraestrutura imutável os dados devem ser persistidos em um Banco de Dados externo ou até mesmo em um bucket.
 
-### Sem acesso ao servidor via SSH
-
 ### Equipes engajadas
+
+Principal boa prática. O engajamento não deve ser somente da equipe de Desenvolvimento e Operações, equipes de Segurança e QA (Quality Assurance) também devem se engajar neste processo para a resolução de incidentes e para que o deploy ocorra da melhor forma possível.
+
+### Sem acesso ao servidor de Produção via SSH
+
+Com os logs centralizados não há necessidade de acesso ao servidor, pois não há necessidade de acessar o servidor para dar um `tail -f` já que os logs estão sendo armazenados em outro lugar.
+
+Por isso uma boa prática é remover o acesso SSH do servidor em Produção.
 
 ## Formas de Deploy em Infraestrutura Imutável
 
