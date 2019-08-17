@@ -118,6 +118,8 @@ Então por isso que é uma boa prática a centralização de todos os logs seja 
 
 Você pode centralizar os logs em alguma das várias ferramentas pagas ou não que existem hoje disponíveis.
 
+Aliás isso evita o acesso a máquina para verificar os logs do servidor, pois como os logs estão centralizados este trabalho fica mais simples.
+
 ### Armazenamento externo de dados
 
 Como no tópico acima foi mencionado que não deve haver escrita nos servidores, o caso de persistência de dados *stateful* também deve ser realizado externamente.
@@ -128,15 +130,62 @@ Hoje com muitas aplicações rodando em containers existem a questão volumes se
 
 Principal boa prática. O engajamento não deve ser somente da equipe de Desenvolvimento e Operações, equipes de Segurança e QA (Quality Assurance) também devem se engajar neste processo para a resolução de incidentes e para que o deploy ocorra da melhor forma possível.
 
-### Sem acesso ao servidor de Produção via SSH
+### Sem acesso ao servidor de Produção
 
-Com os logs centralizados não há necessidade de acesso ao servidor, pois não há necessidade de acessar o servidor para dar um `tail -f` já que os logs estão sendo armazenados em outro lugar.
+Uma vez em Produção, o servidor se torna "intocável", ou seja alguma ações sob hipotése nenhuma devem ser feitas como atualizar pacotes, alterar configurações dos servidores ou modificações na aplicação, impedindo assim que o problema seja reproduzido em outros ambientes para que seja feito o troubleshooting.
 
-Por isso uma boa prática é remover o acesso SSH do servidor em Produção.
+Por isso, não é necessário o acesso ao servidor via SSH para as equipes seja Operações ou Desenvolvimento.
+
+## Tornando seu servidor imutável
+
+Existem alguns passos para transformar o seu servidor em imutável como:
+
+- Provisionar um servidor novo;
+- Testar o servidor novo, mas testar no viés de aplicação e não de operação;
+- Alterar as referências para o servidor novo, geralmente isso é realizado pelo load balancer também por ser mais rápido do que por DNS;
+- Manter a versão anterior (temporariamente) para fazer rollback, se necessário.
+
+E além destes passos, a visibilidade da construção do servidor é de suma importância no porcesso de Infraestrutura Imutável, perguntas do tipo:
+
+### Onde e quando foi construído o servidor? E por que?
+
+Geralmente é importante termos esse lastro guardado em algum lugar. A melhor prática seria a utilização de Changelog explicando o porquê do motivo da construção do artefato com as suas melhorias, correções, etc.
+
+### Qual a imagem anterior do servidor?
+
+Em caso de falha, é importante sabermos qual a versão anterior da imagem seja da VM ou do Container utilizado, pois pode ser utilizado para rollback.
+
+Claro que não precisa ficar guardando um histórico gigante de imagens, mas é interessante armazenar as mais recentes por precaução.
+
+### Como posso iniciar, validar, monitorar e atualizar o servidor?
+
+Esta é uma etapa importante do planejamento, pois é uma definição que deve ser tomada para que se adeque melhor ao projeto que está sendo desenvolvido.
+
+E claro que um planejamento bem feito evita grandes dores de cabeça lá na frente.
+
+### Qual repositório será utilizado e qual o hash do git foi utilizado para a construção da imagem?
+
+Isto tem que ser claro para todos no projeto o reposótorio que está sendo utilizado, e geralmente útilizado o hash do git para a construção das imagens dos containers, assim é melhor identificado onde está a alteração que está em Produção e é mais transparente no processo.
+
+Também pode ser utilizado git tag para este processo.
+
+### Quais as tags específicas do container e/ou VM utilizada como registro do build?
+
+### Qual o nome do projeto do qual pertence o artefato? 
 
 ## Formas de Deploy em Infraestrutura Imutável
 
-### Blue/Green Deployment
+### BlueGreen Deployment
+
+*BlueGreen Deployment* é uma forma automatizada de deploy que envolve em ter dois ambientes distintos, porém o mais idênticos possível. Onde você possui um novo ambiente com o software atualizado (Green) e após todos os testes e garantir que esteja 100% funcional, será efetuada troca do ambiente antigo (Blue) pelo novo (Green).
+
+![](/img/blue_green_deployments.png)
+
+E em caso de falha pode ser feito o *rollback* para o ambiente antigo automaticamente.
+
+Para a parte de Banco de Dados que geralmente é um desafio nesta forma de deploy, então como [Martin Fowler](https://twitter.com/martinfowler) ensina, o pulo do gato nesse ponto é separar o deployment dos schemas para a atualização das aplicações. Então deve ser feita uma refatoração de banco de dados para alterar o schema para oferecer suporte à versão nova e antiga do aplicativo, faça deploy, verifique se tudo está funcionando bem para que você consiga fazer rollback em caso de problemas e faça deploy da nova versão do aplicativo.
+
+E quando a versão atual ficar estável remova o suporte a versão antiga.
 
 ### Canary Release
 
@@ -159,6 +208,7 @@ Deixo para vocês alguns links muito úteis de onde me baseei para fazer este ar
 - [SnowflakeServer](https://martinfowler.com/bliki/SnowflakeServer.html)
 - [Configuration Drift: Phoenix Server vs Snowflake Server Comic](https://www.digitalocean.com/community/tutorials/configuration-drift-phoenix-server-vs-snowflake-server-comic)
 - [Infraestrutura Imutável - A base para aplicações nativas na nuvem](https://www.youtube.com/watch?v=JfhBkiSQynY)
+- [BlueGreenDeployment](https://martinfowler.com/bliki/BlueGreenDeployment.html)
 
 Bom, é isso aí pessoal!
 
