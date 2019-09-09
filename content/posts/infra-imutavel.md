@@ -1,7 +1,7 @@
 ---
 title: "Infraestrutura Imutável: Devemos ainda nos apegar aos nossos servidores?"
-date: 2019-05-18T12:33:08-02:00
-draft: true
+date: 2019-09-09T00:00:08-02:00
+draft: false
 tags: ["devops", "infra", "sre", "pets vs cattle", "phoenix servers", "snowflake servers", "infra as a code"]
 ---
 
@@ -17,12 +17,12 @@ Infraestrutura Imutável é um paradigma, dentre vários em Infraestrutura, onde
 
 Infraestrutura Imutável tem alguns sinônimos conhecidos, onde alguns iremos abordar com mais calma neste artigo:
 
-- Pets vs Cattle
+- Pets vs Cattle;
 - PhoenixServers vs SnowflakeServers;
-- Golden Images
-- Infrastructure as Code
+- Golden Images;
+- Infrastructure as Code.
 
-Neste artigo vamos nos ater nos conceitos de "Pets vs Cattle" e "Phoenix Servers vs Snowflake Servers", os demais tópicos vamos abordar no próximo artigo.
+Neste artigo vamos nos ater nos conceitos de "Pets vs Cattle" e "Phoenix Servers vs Snowflake Servers".
 
 ## Pets vs Cattle
 
@@ -64,14 +64,14 @@ Então [Martin Fowler](https://twitter.com/martinfowler) altera um pouco o termo
 
 O cenário comum para SnowflakeServers são:
  
-- Construção do artefato pela ferramenta de Continuos Delivery;
+- Construção do artefato pela ferramenta de Continuous Delivery;
 - Dependências são instalados e/ou reinstaladas a versão nova, e para esse se faz necessário uma ferramenta como Ansible, Chef, Puppet ou até mesmo um Shell Script para fazer este passo;
 - Implementação do artefato em homologação;
 - Implementação do artefato em produção.
 
 Porém este processo corriqueiro pode ter efeitos colaterais como uma possível indisponibilidade do sistema de empacotamento (`pip`, `bundle`, `npm`, `apt`, `yum`, etc.) ocasionando a não instalação daquela biblioteca necessária ao seu projeto, e é um problema muito difícil de achar e se perde muito tempo fazendo troubleshooting. Podem haver casos de uma biblioteca necessária ao projeto não estar mais disponível no gerenciador de pacotes ou até mesmo uma atualização de biblioteca que podem fazer você perder um tempo precioso para resolver o problema.
 
-E um ponto muito importante é a ordem dos comandos, um erro muito comum que muitos de nós já cometeram são comandos certos em ordem errada, por isso que a ordem dos comandos a serem dados é extrema importância nesse caso pois infelizmente temos dependência circular e pacotes que tem que estar numa ordem correta. E para identificar isso é bem díficil pois na maioria dos casos é difícil identificar o problema e vira uma grande bola de neve.
+E um ponto muito importante é a ordem dos comandos, um erro muito comum que muitos de nós já cometeram são comandos certos em ordem errada, por isso que a ordem dos comandos a serem dados é extrema importância nesse caso pois infelizmente temos dependência circular e pacotes que tem que estar numa ordem correta. E para identificar isso é bem díficil pois na maioria dos casos os logs são escassos e este problema vira uma grande bola de neve.
 
 #### Problemas comuns em Snowflake Servers
 
@@ -171,7 +171,13 @@ Também pode ser utilizado git tag para este processo.
 
 ### Quais as tags específicas do container e/ou VM utilizada como registro do build?
 
-### Qual o nome do projeto do qual pertence o artefato? 
+Hoje a maioria dos orquestradores de containers (Docker Swarm, K8s, etc.) possuem tags ou labels que é possível descrever que o container pertence a qual projeto, squad, time, etc.
+
+Pois, existem cenário onde dezenas, centenas e até milhares de containers podem estar rodando e quanto mais descritivos estiverem melhor para identificar na hora de um troobleshooting ou mesmo para a organizar os projetos dentro do cluster.
+
+### Qual o nome do projeto do qual pertence o artefato?
+
+A pergunta se auto responde não é mesmo? Nada melhor que identificar de qual projeto pertence o artefato. 
 
 ## Formas de Deploy em Infraestrutura Imutável
 
@@ -189,13 +195,45 @@ E quando a versão atual ficar estável remova o suporte a versão antiga.
 
 ### Canary Release
 
+*Canary Release* é uma outra forma de deploy similar ao *BlueGreen Deployment* onde também sobem dois ambientes com a versão antiga e nova da aplicação.
+
+![](/img/canary-release-1.png)
+
+Porém ao invés de realizar a troca de uma vez só, é feito o balanceamento dos usuários que podem acessar a versão atualizada da aplicação, pode ser de uma maneira mais simples liberando a versão atualizada usuários internos e funcionários como algumas empresas fazem ou utilizando uma abordagem sofisticada escolhendo os usuários com base no seu perfil e dados demográficos.
+
+![](/img/canary-release-2.png)
+
+E conforme a nova versão for sendo aceita, você vai fazendo o balanceamento até que 100% da base dos seus usuários utilizem a nova versão e a versão antiga seja descartada.
+
+Para a parte de Banco de Dados tem os mesmos problemas para *BlueGreen Deployment*, mas usando a técnica de [*ParallelChange*](https://martinfowler.com/bliki/ParallelChange.html) pode atenuar este problema, pois ele mantém o banco de dados para as mesmas versões do aplicativo durante a implementação.
+
 ### Rolling Update
+
+Em suma, é um *BlueGreen Deployment* automático, ao invés de fazer a troca do ambiente manualmente, o ambiente é trocado automaticamente sem a intervenção humana.
+
+Na demo abaixo, usamos o tipo de deploy *Rolling Update*.
 
 ## Demo
 
-## Erros que cometi durante minha jornada de aprendizado
+Para essa demo usei as seguintes ferramentas:
+
+- Ansible
+- Packer
+- Terraform
+- API escrita em Go
+- Docker
+- Google Cloud Platform
+- TravisCI
+
+Essa demo foi gravada para o evento [Floripa Tech Day 2019](https://www.floripatechday.com/) no qual palestrei sobre Infraestrutura Imutável:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Xl47-FmAt4g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Conclusão
+
+Nesta parte de conclusão, também fica como as lições aprendidas, eu custei muito a aprender que não poderia haver escrita em disco como a questão de logs centralizados, mas após estudos e mais estudos esta barreira foi superada.
+
+Hoje em dia, cada vez mais as organizações estão aplicando os conceitos de Infraestrutra Imutável para realizar o seu deploy e tendo resultados cada vez mais expressivos, um conselho para que não aplica seria de pelo menos realizar um teste visto é possível aplicar independente da sua stack.
 
 Deixo para vocês alguns links muito úteis de onde me baseei para fazer este artigo:
 
@@ -209,6 +247,9 @@ Deixo para vocês alguns links muito úteis de onde me baseei para fazer este ar
 - [Configuration Drift: Phoenix Server vs Snowflake Server Comic](https://www.digitalocean.com/community/tutorials/configuration-drift-phoenix-server-vs-snowflake-server-comic)
 - [Infraestrutura Imutável - A base para aplicações nativas na nuvem](https://www.youtube.com/watch?v=JfhBkiSQynY)
 - [BlueGreenDeployment](https://martinfowler.com/bliki/BlueGreenDeployment.html)
+- [CanaryRelease](https://martinfowler.com/bliki/CanaryRelease.html)
+- [immutable_infra](https://github.com/perylemke/immutable_infra)
+- [Infraestrutura imutável e em nuvem no Nubank](https://www.infoq.com/br/presentations/infraestrutura-imutavel-e-em-nuvem-no-nubank/)
 
 Bom, é isso aí pessoal!
 
