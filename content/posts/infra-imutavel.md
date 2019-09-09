@@ -26,7 +26,7 @@ Neste artigo vamos nos ater nos conceitos de "Pets vs Cattle" e "Phoenix Servers
 
 ## Pets vs Cattle
 
-O conceito de Pets vs Cattle não naseceram com este nome, mas sim com o conceito de "Scale-Up vs "Scale-Out" apresentado por Bill Baker na apresentação [Scaling SQL Server](https://www.pass.org/eventdownload.aspx?suid=1902) em 2012, sendo que ele nem abordava este assunto em conceito de Cloud Computing, o foco era em num contexto de arquitetura em geral.
+O conceito de Pets vs Cattle não nasceram com este nome, mas sim com o conceito de "Scale-Up vs "Scale-Out" apresentado por Bill Baker na apresentação [Scaling SQL Server](https://www.pass.org/eventdownload.aspx?suid=1902) em 2012, sendo que ele nem abordava este assunto em conceito de Cloud Computing, o foco era em num contexto de arquitetura em geral.
 
 Uma das pessoas a ver esta apresentação era [Randy Bias](https://twitter.com/randybias) que escreveu um artigo muito interessante sobre a História do termo [Pets vs Cattle](http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/) que inspirou este artigo. Bill na sua apresentação usou uma analogia muito interessante que chamou a atenção de Randy, onde ele falou sobre scale-up versus scale-out num contexto de comparar com animais de estimação (Pets) e um rebanho de gado (Cattle).
 
